@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="flex-container">
+        <form action="">
+            <div class="form-group">
+                <label for="">Văn bản ký</label>
+                <input type="text" id="input">
+            </div>
+            <div>
+                <label for="">File text</label>
+                <input type="file" id="fileInput">
+            </div>
+            <div>
+                <label for="">File docx</label>
+                <input type="file" id="wordInput">
+            </div>
+            <button type="button" id="kyButton">Ký</button>
+            <div class="form-group">
+                <label for="">Chữ ký</label>
+                <input type="text" id="chuKy">
+            </div>
+            <button type="button" id="chuyenButton">Chuyển</button>
+        </form>
+        <form action="">
+            <div class="form-group">
+                <label for="">Văn bản ký</label>
+                <input type="text" id="input1">
+            </div>
+            <div>
+                <label for="">File text</label>
+                <input type="file" id="fileInput1">
+            </div>
+            <div>
+                <label for="">File docx</label>
+                <input type="file" id="wordInput1">
+            </div>
+            <div class="form-group">
+                <label for="">Chữ ký</label>
+                <input type="text" id="chuKy1">
+            </div>
+
+            <button type="button" id="ktraButton">Kiểm tra chữ ký</button>
+            <div class="form-group">
+                <label for="">Thông báo</label>
+                <input type="text" id="thongBao">
+            </div>
+        </form>
+    </div>
+
+</body>
+<script src="main.js"></script>
+<script>
+    var input = document.querySelector('#input')
+    var kyButton = document.querySelector('#kyButton')
+    var chuKy = document.querySelector('#chuKy')
+    var chuyenButton = document.querySelector('#chuyenButton')
+    var input1 = document.querySelector('#input1')
+    var chuKy1 = document.querySelector('#chuKy1')
+    var ktraButton = document.querySelector('#ktraButton')
+    var thongBao = document.querySelector('#thongBao')
+
+    kyButton.onclick = function () {
+        chuKy.value = elgamal(stringToInteger(input.value)).chuKyDangChuoi
+
+    }
+    chuyenButton.onclick = function () {
+        chuKy1.value = chuKy.value
+    }
+    ktraButton.onclick = function () {
+        thongBao.value = kiemTra(stringToInteger(input1.value))
+    }
+</script>
+<script src="docx.js"></script>
+<script src="txt.js"></script>
+
+
+</html>
