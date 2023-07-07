@@ -1,14 +1,8 @@
 function stringToInteger(string) {
-    // Áp dụng hàm băm SHA-256
     const hash = CryptoJS.SHA256(string);
-
-    // Chuyển đổi kết quả băm thành số nguyên ở hệ cơ số 10
     const integer = parseInt(hash.toString(), 16);
-
     return integer;
 }
-console.log(stringToInteger('viet'))
-
 function gcd(a, b) {
     if (b === BigInt(0)) {
         return a;
@@ -23,7 +17,6 @@ function nghichDaoModulo(a, m) {
     let t0 = BigInt(0);
     let s1 = BigInt(0);
     let t1 = BigInt(1);
-
     while (r1 !== BigInt(0)) {
         const q = r0 / r1;
         const r2 = r0 % r1;
@@ -37,18 +30,15 @@ function nghichDaoModulo(a, m) {
         t0 = t1;
         t1 = t2;
     }
-
     while (t0 < BigInt(0)) {
         t0 += m;
     }
-
     return t0;
 }
 
 function binhPhuongVaNhan(a, b, m) {
     let result = BigInt(1);
     a = a % m;
-
     while (b > BigInt(0)) {
         if (BigInt(b) % BigInt(2) === BigInt(1)) {
             result = (result * a) % m;
@@ -56,8 +46,18 @@ function binhPhuongVaNhan(a, b, m) {
         a = (a * a) % m;
         b = BigInt(b) / BigInt(2);
     }
-
     return result;
+}
+function kiemTraSNT(num) {
+    if (num <= 1n) {
+        return false;
+    }
+    for (let i = 2n; i * i <= num; i++) {
+        if (num % i === 0n) {
+            return false;
+        }
+    }
+    return true;
 }
 var p
 var g
@@ -67,18 +67,6 @@ var k
 var r;
 var s;
 function elgamal(z) {
-    function kiemTraSNT(num) {
-        if (num <= 1n) {
-            return false;
-        }
-        for (let i = 2n; i * i <= num; i++) {
-            if (num % i === 0n) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     function taoP(min, max) {
         let kiemTra = false;
         let p;
@@ -91,7 +79,6 @@ function elgamal(z) {
         }
         return p;
     }
-
     function taoG(n) {
         let kiemTra = false;
         let g;
@@ -104,7 +91,6 @@ function elgamal(z) {
         }
         return g;
     }
-
     function taoX(p) {
         return BigInt(Math.floor(2 + Math.random() * (Number(p) - 3)));
     }
@@ -163,5 +149,12 @@ function elgamal(z) {
 }
 function kiemTra(z) {
     const ktra = ((binhPhuongVaNhan(y, r, p) * binhPhuongVaNhan(r, s, p)) % p) === binhPhuongVaNhan(g, z, p);
-    return ktra;
+    let message
+    if (ktra === true) {
+        message = 'Chữ ký đúng'
+    }
+    else {
+        message = 'Chữ ký sai'
+    }
+    return message;
 }

@@ -33,6 +33,7 @@
                 <label for="">Chữ ký</label>
                 <input type="text" id="chuKy">
             </div>
+            <button type="button" onclick="saveToFile()">Lưu</button>
             <button type="button" id="chuyenButton">Chuyển</button>
         </form>
         <form action="">
@@ -52,36 +53,66 @@
                 <label for="">Chữ ký</label>
                 <input type="text" id="chuKy1">
             </div>
-
+            <div>
+                <label for="">File chữ ký</label>
+                <input type="file" id="fileChuKy">
+            </div>
             <button type="button" id="ktraButton">Kiểm tra chữ ký</button>
             <div class="form-group">
                 <label for="">Thông báo</label>
                 <input type="text" id="thongBao">
             </div>
+            <button type="button" id="back">Back</button>
         </form>
     </div>
 
 </body>
 <script src="main.js"></script>
 <script>
-    var input = document.querySelector('#input')
-    var kyButton = document.querySelector('#kyButton')
-    var chuKy = document.querySelector('#chuKy')
-    var chuyenButton = document.querySelector('#chuyenButton')
-    var input1 = document.querySelector('#input1')
-    var chuKy1 = document.querySelector('#chuKy1')
-    var ktraButton = document.querySelector('#ktraButton')
-    var thongBao = document.querySelector('#thongBao')
+    let input = document.querySelector('#input')
+    let kyButton = document.querySelector('#kyButton')
+    let chuKy = document.querySelector('#chuKy')
+    let chuyenButton = document.querySelector('#chuyenButton')
+    let input1 = document.querySelector('#input1')
+    let chuKy1 = document.querySelector('#chuKy1')
+    let fileChuKy = document.querySelector('#fileChuKy')
+    let ktraButton = document.querySelector('#ktraButton')
+    let thongBao = document.querySelector('#thongBao')
+    let fileInput = document.querySelector('#fileInput')
+    let wordInput = document.querySelector('#wordInput')
+    let fileInput1 = document.querySelector('#fileInput1')
+    let wordInput1 = document.querySelector('#wordInput1')
+    let back = document.querySelector('#back')
 
     kyButton.onclick = function () {
-        chuKy.value = elgamal(stringToInteger(input.value)).chuKyDangChuoi
+        if (input.value === '') {
+            alert('Vui lòng nhập văn bản ký')
+        }
+        else {
+            console.log(elgamal(stringToInteger(input.value)))
+            chuKy.value = elgamal(stringToInteger(input.value)).chuKyDangChuoi
+        }
 
     }
     chuyenButton.onclick = function () {
+        input1.value = input.value
         chuKy1.value = chuKy.value
     }
     ktraButton.onclick = function () {
         thongBao.value = kiemTra(stringToInteger(input1.value))
+    }
+    back.onclick = function () {
+        location.reload()
+    }
+    function saveToFile() {
+        let content = document.getElementById('chuKy').value;
+        let blob = new Blob([content], { type: 'text/plain' });
+        let url = URL.createObjectURL(blob);
+        let link = document.createElement('a');
+        link.href = url;
+        link.download = 'file.txt';
+        link.click();
+        URL.revokeObjectURL(url);
     }
 </script>
 <script src="docx.js"></script>

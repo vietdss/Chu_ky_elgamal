@@ -1,51 +1,54 @@
-const wordInput = document.getElementById('wordInput');
-const wordInput1 = document.getElementById('wordInput1');
+document.getElementById('wordInput').addEventListener('change', handleFileSelect, false);
 
-var wordContent;
-var wordContent1;
+function handleFileSelect(event) {
+    const file = event.target.files[0];
 
-// Đặt sự kiện 'change' khi người dùng chọn một tệp cho wordInput
-wordInput.addEventListener('change', (event) => {
-    const fileInput = event.target;
-    const file = fileInput.files[0];
-
-    if (file instanceof Blob) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-            wordContent = event.target.result;
-            input.value = wordContent;
-            console.log(wordContent);
-        };
-
-        reader.onerror = function (event) {
-            console.error('Lỗi khi đọc tệp.', event.target.error);
-        };
-
-        reader.readAsText(file);
-    } else {
-        console.error('Vui lòng chọn một file cho wordInput.');
+    if (!file) {
+        return;
     }
-});
 
-// Đặt sự kiện 'change' khi người dùng chọn một tệp cho wordInput1
-wordInput1.addEventListener('change', (event) => {
-    const fileInput1 = event.target;
-    const file1 = fileInput1.files[0];
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const arrayBuffer = e.target.result;
 
-    if (file1 instanceof Blob) {
-        const reader1 = new FileReader();
-        reader1.onload = function (event) {
-            wordContent1 = event.target.result;
-            input1.value = wordContent1;
-            console.log(wordContent1);
+        const options = {
+            convertImage: mammoth.images.imgElement(function (image) {
+                return image.read("base64");
+            })
         };
+        mammoth.extractRawText({ arrayBuffer: arrayBuffer }, options)
+            .then(function (result) {
+                const html = result.value;
+                input.value = html;
+            })
+            .done();
+    };
+    reader.readAsArrayBuffer(file);
+}
+document.getElementById('wordInput1').addEventListener('change', handleFileSelect1, false);
 
-        reader1.onerror = function (event) {
-            console.error('Lỗi khi đọc tệp.', event.target.error);
-        };
+function handleFileSelect1(event) {
+    const file = event.target.files[0];
 
-        reader1.readAsText(file1);
-    } else {
-        console.error('Vui lòng chọn một file cho wordInput1.');
+    if (!file) {
+        return;
     }
-});
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const arrayBuffer = e.target.result;
+
+        const options = {
+            convertImage: mammoth.images.imgElement(function (image) {
+                return image.read("base64");
+            })
+        };
+        mammoth.extractRawText({ arrayBuffer: arrayBuffer }, options)
+            .then(function (result) {
+                const html = result.value;
+                input1.value = html;
+            })
+            .done();
+    };
+    reader.readAsArrayBuffer(file);
+}
